@@ -1,0 +1,13 @@
+<div class="board-container">
+  <div class="board-header">
+    <h1>📋 Kanban Task Manager</h1>
+  </div>
+  <div class="board">
+    <app-column
+      *ngFor="let column of columns"
+      [title]="column.title"
+      [status]="column.status"
+      (taskDeleted)="onTaskDeleted($event)"
+    ></app-column>
+  </div>
+</div>

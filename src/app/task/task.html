@@ -1,0 +1,23 @@
+<div class="task-card">
+  <ng-container *ngIf="!isEditing; else editTpl">
+    <div class="task-header">
+      <h4>{{ task.title }}</h4>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <button class="edit-btn" (click)="startEdit()">✎</button>
+        <button class="delete-btn" (click)="onDelete()">×</button>
+      </div>
+    </div>
+    <p class="task-description">{{ task.description }}</p>
+  </ng-container>
+
+  <ng-template #editTpl>
+    <div class="task-edit">
+      <input class="task-input" [(ngModel)]="editTitle" placeholder="Title" />
+      <textarea class="task-textarea" [(ngModel)]="editDescription" rows="3" placeholder="Description"></textarea>
+      <div class="task-edit-actions">
+        <button class="save-btn" (click)="saveEdit()">Save</button>
+        <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

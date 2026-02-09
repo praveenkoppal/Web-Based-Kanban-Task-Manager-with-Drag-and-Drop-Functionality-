@@ -1,0 +1,17 @@
+<div class="column">
+  <div class="column-header">
+    <h3>{{ title }}</h3>
+    <span class="task-count">{{ tasks.length }}</span>
+  </div>
+  <div class="column-box">
+    <div class="tasks-container">
+        <app-task
+          *ngFor="let task of tasks"
+          [task]="task"
+          (deleteTask)="onTaskDelete($event)"
+          (updateTask)="onTaskUpdate($event)"
+        ></app-task>
+    </div>
+  </div>
+  <button class="add-task-btn" (click)="addTask()">+ Add Task</button>
+</div>
