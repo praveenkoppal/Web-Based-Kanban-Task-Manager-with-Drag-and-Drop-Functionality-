@@ -1,0 +1,13 @@
+/* Blurs main board when a task is in edit mode */
+body.editing-active .board-container {
+	filter: blur(4px);
+	transition: filter 180ms ease-in-out;
+}
+
+/* ensure overlays & modals show above blur */
+.editing-overlay {
+	position: fixed;
+	inset: 0;
+	pointer-events: all;
+	z-index: 1000;
+}

@@ -1,23 +1,38 @@
 <div class="task-card">
-  <ng-container *ngIf="!isEditing; else editTpl">
+  <ng-container *ngIf="!isEditing">
     <div class="task-header">
-      <h4>{{ task.title }}</h4>
-      <div style="display:flex; gap:8px; align-items:center;">
-        <button class="edit-btn" (click)="startEdit()">✎</button>
-        <button class="delete-btn" (click)="onDelete()">×</button>
+      <div class="task-title-row">
+        <h4>{{ task.title }}</h4>
+        <span class="priority-badge" [ngClass]="{'priority-high': task.priority==='High','priority-medium': task.priority==='Medium','priority-low': task.priority==='Low'}">{{ task.priority || 'Medium' }}</span>
+      </div>
+      <div class="task-actions">
+        <button class="edit-btn" (click)="startEdit()" title="Edit">Edit</button>
+        <button class="delete-btn" (click)="onDelete()" title="Delete">X</button>
       </div>
     </div>
     <p class="task-description">{{ task.description }}</p>
   </ng-container>
 
-  <ng-template #editTpl>
-    <div class="task-edit">
-      <input class="task-input" [(ngModel)]="editTitle" placeholder="Title" />
-      <textarea class="task-textarea" [(ngModel)]="editDescription" rows="3" placeholder="Description"></textarea>
+  <div *ngIf="isEditing" class="add-modal-overlay" (click)="cancelEdit()">
+    <div class="add-modal" (click)="$event.stopPropagation()">
+      <div class="edit-modal-header">
+        <h3>Edit Task</h3>
+      </div>
+      <div class="edit-modal-body">
+        <input class="task-input" [(ngModel)]="editTitle" placeholder="Title" />
+        <textarea class="task-textarea" [(ngModel)]="editDescription" rows="4" placeholder="Description"></textarea>
+        <label class="priority-label">Priority
+          <select [(ngModel)]="editPriority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+      </div>
       <div class="task-edit-actions">
         <button class="save-btn" (click)="saveEdit()">Save</button>
         <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
       </div>
     </div>
-  </ng-template>
+  </div>
 </div>

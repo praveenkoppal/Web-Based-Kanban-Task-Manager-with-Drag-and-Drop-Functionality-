@@ -1,17 +1,47 @@
 <div class="column">
   <div class="column-header">
-    <h3>{{ title }}</h3>
-    <span class="task-count">{{ tasks.length }}</span>
+    <div class="column-title-section">
+      <h3>{{ title }}</h3>
+      <span class="task-count">
+        {{ filteredTasks.length }}<span *ngIf="filter"> / {{ tasks.length }}</span>
+      </span>
+    </div>
+    <button class="delete-column-btn" (click)="onDeleteColumn()" title="Delete column">✕</button>
   </div>
   <div class="column-box">
-    <div class="tasks-container">
+    <div class="tasks-container" cdkDropList [id]="title" [cdkDropListData]="tasks" [cdkDropListConnectedTo]="connectedTo" (cdkDropListDropped)="onCdkDrop($event)">
         <app-task
-          *ngFor="let task of tasks"
+          *ngFor="let task of filteredTasks; let i = index"
+          cdkDrag
+          [cdkDragData]="task"
           [task]="task"
+          [columnTitle]="title"
           (deleteTask)="onTaskDelete($event)"
           (updateTask)="onTaskUpdate($event)"
+          (editingStarted)="onEditing($event)"
         ></app-task>
     </div>
   </div>
-  <button class="add-task-btn" (click)="addTask()">+ Add Task</button>
+  <button *ngIf="showAddButtonWhenEditing" [class.floating]="showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()">+ Add Task</button>
+  <button *ngIf="!showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()">+ Add Task</button>
+
+  <!-- Add Task Modal -->
+  <div *ngIf="showAddModal" class="add-modal-overlay" (click)="closeAddModal()">
+    <div class="add-modal" (click)="$event.stopPropagation()">
+      <h3>Add New Task</h3>
+      <input class="modal-input" [(ngModel)]="newTaskTitle" placeholder="Task Title" />
+      <textarea class="modal-textarea" [(ngModel)]="newTaskDescription" rows="4" placeholder="Task Description"></textarea>
+      <label class="priority-label">Priority
+        <select [(ngModel)]="newTaskPriority">
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </label>
+      <div class="modal-actions">
+        <button class="save-btn" (click)="saveNewTask()">Save</button>
+        <button class="cancel-btn" (click)="closeAddModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 </div>

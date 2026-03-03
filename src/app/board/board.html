@@ -1,13 +1,58 @@
 <div class="board-container">
   <div class="board-header">
-    <h1>📋 Kanban Task Manager</h1>
+    <h1>TODO LIST</h1>
+
+    <div class="profile-container" *ngIf="userName">
+      <img [src]="profileUrl" alt="Profile" />
+      <span class="profile-name">{{ userName }}</span>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+
+    <div class="search-wrapper">
+      <input
+        type="text"
+        placeholder="Search tasks..."
+        [(ngModel)]="searchTerm"
+        class="search-input"
+      />
+      <button
+        *ngIf="searchTerm"
+        class="search-clear"
+        aria-label="Clear search"
+        (click)="searchTerm = ''"
+      >✖</button>
+    </div>
   </div>
   <div class="board">
     <app-column
       *ngFor="let column of columns"
       [title]="column.title"
       [status]="column.status"
+      [connectedTo]="connectedIds"
+      [filter]="searchTerm"
       (taskDeleted)="onTaskDeleted($event)"
+      (deleteColumn)="deleteColumn($event)"
     ></app-column>
+    
+    <!-- Add Column Card -->
+    <div class="add-column-card" (click)="addColumnOpen()">
+      <div class="add-column-content">
+        <span class="add-column-icon">➕</span>
+        <p>Add Column</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Column Modal -->
+  <div *ngIf="showAddColumnModal" class="add-column-modal-overlay" (click)="closeAddColumnModal()">
+    <div class="add-column-modal" (click)="$event.stopPropagation()">
+      <h3>Add New Column</h3>
+      <input class="modal-input" [(ngModel)]="newColumnTitle" placeholder="Column Title (e.g., 'Testing', 'Review')" />
+      <input class="modal-input" [(ngModel)]="newColumnStatus" placeholder="Column Status/ID (optional)" />
+      <div class="modal-actions">
+        <button class="save-btn" (click)="saveNewColumn()">Create</button>
+        <button class="cancel-btn" (click)="closeAddColumnModal()">Cancel</button>
+      </div>
+    </div>
   </div>
 </div>

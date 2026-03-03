@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { Board } from './board/board';
+import { NotificationContainer } from './notification-container/notification-container';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Board],
+  imports: [NotificationContainer, RouterModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

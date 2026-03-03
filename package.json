@@ -1,5 +1,5 @@
 {
-  "name": "kanban-board",
+  "name": "work-like-pro",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:kanban-board": "node dist/kanban-board/server/server.mjs"
+    "serve:ssr:work-like-pro": "node dist/work-like-pro/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
@@ -31,6 +31,7 @@
     "@angular/platform-browser": "^21.1.0",
     "@angular/platform-server": "^21.1.0",
     "@angular/router": "^21.1.0",
+    "@angular/cdk": "^21.1.0",
     "@angular/ssr": "^21.1.3",
     "express": "^5.1.0",
     "rxjs": "~7.8.0",

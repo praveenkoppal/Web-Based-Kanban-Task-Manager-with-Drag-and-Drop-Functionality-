@@ -7,7 +7,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "kanban-board": {
+    "work-like-pro": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -62,10 +62,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "kanban-board:build:production"
+              "buildTarget": "work-like-pro:build:production"
             },
             "development": {
-              "buildTarget": "kanban-board:build:development"
+              "buildTarget": "work-like-pro:build:development"
             }
           },
           "defaultConfiguration": "development"

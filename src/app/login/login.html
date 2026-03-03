@@ -1,0 +1,40 @@
+<div class="login-container">
+  <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)" class="login-card">
+    <h2>Welcome</h2>
+    <p>Please sign in to continue</p>
+
+    <div class="field-group" [class.invalid]="usernameControl?.invalid && usernameControl?.touched">
+      <label for="username">Username</label>
+      <input
+        id="username"
+        name="username"
+        type="text"
+        [(ngModel)]="username"
+        #usernameControl="ngModel"
+        required
+        autofocus
+      />
+      <div class="field-error" *ngIf="usernameControl?.invalid && usernameControl?.touched">
+        Username is required
+      </div>
+    </div>
+
+    <div class="field-group" [class.invalid]="passwordControl?.invalid && passwordControl?.touched">
+      <label for="password">Password</label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        [(ngModel)]="password"
+        #passwordControl="ngModel"
+        required
+      />
+      <div class="field-error" *ngIf="passwordControl?.invalid && passwordControl?.touched">
+        Password is required
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</div>

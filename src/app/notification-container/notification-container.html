@@ -1,0 +1,16 @@
+<div class="notification-container">
+  <div
+    *ngFor="let notif of notifications"
+    class="notification"
+    [ngClass]="[ 'notification-' + notif.type, notif.closing ? 'slide-out' : '' ]"
+  >
+    <span class="notification-message">{{ notif.message }}</span>
+    <button
+      class="notification-close"
+      (click)="removeNotification(notif.id)"
+      aria-label="Close notification"
+    >
+      ✕
+    </button>
+  </div>
+</div>

@@ -20,6 +20,14 @@
   margin-bottom: 16px;
   border-bottom: 2px solid #667eea;
   padding-bottom: 12px;
+  gap: 10px;
+}
+
+.column-title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
 }
 
 .column-header h3 {
@@ -40,6 +48,33 @@
   justify-content: center;
   font-size: 0.9em;
   font-weight: bold;
+}
+
+.delete-column-btn {
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.delete-column-btn:hover {
+  background: #ff5252;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.delete-column-btn:active {
+  transform: scale(0.95);
 }
 
 .column-box {
@@ -73,4 +108,192 @@
 
 .add-task-btn:active {
   transform: translateY(0);
+}
+
+.add-task-btn.floating {
+  animation: pop 220ms ease-out;
+  box-shadow: 0 10px 28px rgba(102, 126, 234, 0.25);
+}
+
+@keyframes pop {
+  from { transform: scale(0.85); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Add Task Modal Styles */
+.add-modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1300;
+  pointer-events: all;
+}
+
+.add-modal {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 300ms ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.add-modal h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 1.3em;
+  font-weight: 600;
+}
+
+.modal-input, .modal-textarea {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95em;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+.modal-input:focus, .modal-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.priority-label {
+  display: block;
+  margin-bottom: 12px;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95em;
+}
+
+.priority-label select {
+  width: 100%;
+  padding: 8px 12px;
+  margin-top: 6px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95em;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.priority-label select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.save-btn, .cancel-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.save-btn {
+  background: #667eea;
+  color: white;
+}
+
+.save-btn:hover {
+  background: #764ba2;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.save-btn:active {
+  transform: translateY(0);
+}
+
+.cancel-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.cancel-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-1px);
+}
+
+.cancel-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .column {
+    padding: 12px;
+  }
+
+  .column-header {
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+  }
+
+  .column-header h3 {
+    font-size: 1.05em;
+  }
+
+  .column-box {
+    min-height: 240px;
+  }
+
+  .tasks-container {
+    gap: 10px;
+  }
+
+  .add-task-btn {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .add-modal {
+    width: calc(100% - 24px);
+    padding: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .save-btn, .cancel-btn {
+    width: 100%;
+  }
 }

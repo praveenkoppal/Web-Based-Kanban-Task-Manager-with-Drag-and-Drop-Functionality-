@@ -1,0 +1,70 @@
+/* simple formal style */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+}
+
+.login-card {
+  width: 320px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card h2 {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.field-group {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group label {
+  font-size: 0.9rem;
+  margin-bottom: 4px;
+}
+
+.field-group input {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  transition: border-color 0.2s;
+}
+.field-group.invalid input {
+  border-color: #d32f2f;
+}
+.field-error {
+  color: #d32f2f;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+.login-btn {
+  padding: 10px;
+  font-size: 1rem;
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #005fa3;
+}
+
+.error-message {
+  color: #d32f2f;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
