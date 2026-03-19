@@ -10,4 +10,16 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./app.css']
 })
 export class App {
+  constructor() {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker
+        .register('/mock-api-worker.js')
+        .then((reg) => {
+          console.log('Mock API service worker registered:', reg);
+        })
+        .catch((error) => {
+          console.error('Service worker registration failed:', error);
+        });
+    }
+  }
 }

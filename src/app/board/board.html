@@ -1,11 +1,31 @@
 <div class="board-container">
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
   <div class="board-header">
-    <h1>TODO LIST</h1>
+    <h1 class="app-title">PROJECT PLANNER</h1>
 
-    <div class="profile-container" *ngIf="userName">
+    <div class="profile-container" *ngIf="userName" (click)="openEditName()">
       <img [src]="profileUrl" alt="Profile" />
       <span class="profile-name">{{ userName }}</span>
-      <button class="logout-btn" (click)="logout()">Logout</button>
+      <button class="logout-btn" (click)="logout(); $event.stopPropagation()">Logout</button>
+      <button class="dashboard-btn" routerLink="/dashboard" (click)="$event.stopPropagation()">Dashboard</button>
+    </div>
+
+    <!-- edit name modal -->
+    <div *ngIf="showEditNameModal" class="edit-name-overlay" (click)="closeEditName()">
+      <div class="edit-name-modal" (click)="$event.stopPropagation()">
+        <h3>Change Display Name</h3>
+        <input
+          class="modal-input"
+          [(ngModel)]="editedName"
+          placeholder="New display name"
+        />
+        <div class="modal-actions">
+          <button class="save-btn" (click)="saveEditedName()">Save</button>
+          <button class="cancel-btn" (click)="closeEditName()">Cancel</button>
+        </div>
+      </div>
     </div>
 
     <div class="search-wrapper">
@@ -22,23 +42,48 @@
         (click)="searchTerm = ''"
       >✖</button>
     </div>
+
+    <div class="priority-wrapper">
+      <select [(ngModel)]="priorityFilter" class="priority-select">
+        <option value="">All priorities</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+      </select>
+    </div>
+
   </div>
-  <div class="board">
-    <app-column
-      *ngFor="let column of columns"
-      [title]="column.title"
-      [status]="column.status"
-      [connectedTo]="connectedIds"
-      [filter]="searchTerm"
-      (taskDeleted)="onTaskDeleted($event)"
-      (deleteColumn)="deleteColumn($event)"
-    ></app-column>
-    
+  <div class="board" cdkDropList [cdkDropListData]="columns" (cdkDropListDropped)="onColumnDrop($event)">
+    <div class="column-drag" *ngFor="let column of columns" cdkDrag [cdkDragData]="column">
+      <app-column
+        [title]="column.title"
+        [status]="column.status"
+        [connectedTo]="connectedIds"
+        [filter]="searchTerm"
+        [priorityFilter]="priorityFilter"
+        [totalTasks]="totalTasks"
+        (taskDeleted)="onTaskDeleted($event)"
+        (deleteColumn)="requestDeleteColumn($event)"
+      ></app-column>
+    </div>
+
     <!-- Add Column Card -->
-    <div class="add-column-card" (click)="addColumnOpen()">
+    <div class="add-column-card" (click)="addColumnOpen()" [class.disabled]="loading">
       <div class="add-column-content">
         <span class="add-column-icon">➕</span>
         <p>Add Column</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Column Confirmation Modal -->
+  <div *ngIf="showDeleteConfirmModal" class="add-column-modal-overlay" (click)="cancelDeleteColumn()">
+    <div class="add-column-modal" (click)="$event.stopPropagation()">
+      <h3>Confirm Delete Column</h3>
+      <p>Are you sure you want to delete column "{{ pendingDeleteColumn?.title }}"?</p>
+      <div class="modal-actions">
+        <button class="save-btn" (click)="confirmDeleteColumn()">Yes, delete</button>
+        <button class="cancel-btn" (click)="cancelDeleteColumn()">Cancel</button>
       </div>
     </div>
   </div>
@@ -48,7 +93,6 @@
     <div class="add-column-modal" (click)="$event.stopPropagation()">
       <h3>Add New Column</h3>
       <input class="modal-input" [(ngModel)]="newColumnTitle" placeholder="Column Title (e.g., 'Testing', 'Review')" />
-      <input class="modal-input" [(ngModel)]="newColumnStatus" placeholder="Column Status/ID (optional)" />
       <div class="modal-actions">
         <button class="save-btn" (click)="saveNewColumn()">Create</button>
         <button class="cancel-btn" (click)="closeAddColumnModal()">Cancel</button>

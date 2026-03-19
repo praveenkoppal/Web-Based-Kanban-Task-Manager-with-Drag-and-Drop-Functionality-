@@ -1,4 +1,7 @@
 <div class="column">
+  <div *ngIf="loadingTasks" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
   <div class="column-header">
     <div class="column-title-section">
       <h3>{{ title }}</h3>
@@ -22,8 +25,8 @@
         ></app-task>
     </div>
   </div>
-  <button *ngIf="showAddButtonWhenEditing" [class.floating]="showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()">+ Add Task</button>
-  <button *ngIf="!showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()">+ Add Task</button>
+  <button *ngIf="showAddButtonWhenEditing" [class.floating]="showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()" [disabled]="loadingTasks">+ Add Task</button>
+  <button *ngIf="!showAddButtonWhenEditing" class="add-task-btn" (click)="addTask()" [disabled]="loadingTasks">+ Add Task</button>
 
   <!-- Add Task Modal -->
   <div *ngIf="showAddModal" class="add-modal-overlay" (click)="closeAddModal()">

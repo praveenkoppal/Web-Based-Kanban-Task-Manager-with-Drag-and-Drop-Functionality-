@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
@@ -27,11 +27,12 @@ export class LoginComponent {
       return;
     }
 
-    const ok = this.auth.login(this.username.trim(), this.password);
-    if (ok) {
-      this.router.navigate(['/board']);
-    } else {
-      this.errorMessage = 'Unable to save credentials to storage';
-    }
+    this.auth.login(this.username.trim(), this.password).subscribe(ok => {
+      if (ok) {
+        this.router.navigate(['/board']);
+      } else {
+        this.errorMessage = 'Invalid username or password';
+      }
+    });
   }
 }

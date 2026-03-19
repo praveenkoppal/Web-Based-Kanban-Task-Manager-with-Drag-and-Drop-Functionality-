@@ -1,7 +1,6 @@
 <div class="login-container">
-  <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)" class="login-card">
-    <h2>Welcome</h2>
-    <p>Please sign in to continue</p>
+  <form #regForm="ngForm" (ngSubmit)="submit(regForm)" class="login-card">
+    <h2>Create Account</h2>
 
     <div class="field-group" [class.invalid]="usernameControl?.invalid && usernameControl?.touched">
       <label for="username">Username</label>
@@ -28,16 +27,36 @@
         [(ngModel)]="password"
         #passwordControl="ngModel"
         required
+        pattern="(?=.*[A-Za-z])(?=(.*\d){4,}).+"
       />
       <div class="field-error" *ngIf="passwordControl?.invalid && passwordControl?.touched">
         Password is required
       </div>
+      <div class="field-hint">
+        Must include at least one letter and four numbers.
+      </div>
+    </div>
+
+    <div class="field-group" [class.invalid]="confirmControl?.invalid && confirmControl?.touched">
+      <label for="confirm">Confirm Password</label>
+      <input
+        id="confirm"
+        name="confirm"
+        type="password"
+        [(ngModel)]="confirm"
+        #confirmControl="ngModel"
+        required
+      />
+      <div class="field-error" *ngIf="confirmControl?.invalid && confirmControl?.touched">
+        Confirm password is required
+      </div>
     </div>
 
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <button type="submit" class="login-btn" [disabled]="loginForm.invalid">Login</button>
+    <button type="submit" class="login-btn" [disabled]="regForm.invalid">Sign up</button>
+
     <p class="register-link">
-      Don't have an account? <a routerLink="/register">Sign up</a>
+      Already have an account? <a routerLink="/login">Login</a>
     </p>
   </form>
 </div>

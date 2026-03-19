@@ -10,7 +10,14 @@ import { join } from 'node:path';
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
 const app = express();
-const angularApp = new AngularNodeAppEngine();
+// The Angular engine will merge any provided hosts with the manifest
+// value.  Our build manifest doesn't include `allowedHosts` which leads to
+// the runtime error `manifest.allowedHosts is not iterable`.  Passing an
+// explicit empty array here prevents the spread operator from blowing up.
+// allow localhost addresses during development; otherwise the engine will
+// reject incoming requests as a potential SSRF attack.  Future versions will
+// return 400 for disallowed hosts so we whitelist what we need here.
+const angularApp = new AngularNodeAppEngine({ allowedHosts: ['localhost', '127.0.0.1'] });
 
 /**
  * Example Express Rest API endpoints can be defined here.

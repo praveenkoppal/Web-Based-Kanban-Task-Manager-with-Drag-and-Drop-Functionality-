@@ -1,0 +1,40 @@
+<div class="dashboard">
+  <div class="dashboard-header">
+    <h1 class="app-title">PROJECT STATS</h1>
+    <p>Task Summary Across All Columns</p>
+  </div>
+  
+  <div class="dashboard-content">
+    <div class="summary-card">
+      <h3>Total Tasks</h3>
+      <p class="total-count">{{ total }}</p>
+    </div>
+
+    <div class="table-section">
+      <h3>Tasks per Column</h3>
+      <table class="stats-table">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Count</th>
+            <th>Percent</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let col of (stats | keyvalue)">
+            <td>{{ col.key }}</td>
+            <td class="count">{{ col.value }}</td>
+            <td class="percent">{{ percent(col.value) }}%</td>
+          </tr>
+        </tbody>
+      </table>
+      <div *ngIf="total === 0" class="empty-state">
+        No tasks yet. Create some tasks on the board!
+      </div>
+    </div>
+
+    <div class="actions">
+      <a routerLink="/board" class="back-btn">← Back to Board</a>
+    </div>
+  </div>
+</div>

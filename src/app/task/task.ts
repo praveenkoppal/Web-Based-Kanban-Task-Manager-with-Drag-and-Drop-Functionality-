@@ -2,13 +2,10 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NotificationService } from '../services/notification.service';
+import { TaskItem } from '../models';
 
-export interface TaskItem {
-  id: number;
-  title: string;
-  description: string;
-  priority?: 'High' | 'Medium' | 'Low';
-}
+// Note: TaskItem now includes a `column` property in the shared model, but
+// components that only operate on a single column can ignore it.
 
 @Component({
   selector: 'app-task',
@@ -18,7 +15,7 @@ export interface TaskItem {
   styleUrls: ['./task.css'],
 })
 export class Task {
-  @Input() task: TaskItem = { id: 0, title: '', description: '', priority: 'Medium' };
+  @Input() task: TaskItem = { id: 0, title: '', description: '', priority: 'Medium', column: '' };
   @Input() columnTitle = '';
   @Output() deleteTask = new EventEmitter<number>();
   @Output() updateTask = new EventEmitter<TaskItem>();
@@ -33,12 +30,9 @@ export class Task {
   constructor(private notificationService: NotificationService) {}
 
   onDelete(): void {
-    const title = this.task?.title || 'this task';
-    const col = this.columnTitle || '';
-    const msg = col ? `Are you sure you want to delete the task "${title}" from "${col}"?` : `Are you sure you want to delete the task "${title}"?`;
-    if (confirm(msg)) {
-      this.deleteTask.emit(this.task.id);
-    }
+    // No native browser confirm. Emit directly and rely on custom UI snackbar/modal if desired.
+    // This keeps behavior consistent with the custom column confirm flow.
+    this.deleteTask.emit(this.task.id);
   }
 
   startEdit(): void {
@@ -60,6 +54,7 @@ export class Task {
       title: this.editTitle.trim() || this.task.title,
       description: this.editDescription.trim() || this.task.description,
       priority: this.editPriority || 'Medium',
+      column: this.task.column || this.columnTitle || '',
     };
     this.updateTask.emit(updated);
     this.task = updated;

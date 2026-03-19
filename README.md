@@ -1,7 +1,39 @@
 # Work Like Pro
 
-A formal **login page** has been added. Credentials are stored locally in `localStorage`; there is no backend or database. Once logged in you are redirected to the kanban board and may logout using the button in the header.
+This is an Angular kanban board demo. All of the application's data (columns, tasks, and user accounts) is stored in the browser's localStorage, so it persists across page reloads.
 
+A login/registration flow lets you create an account or log in with the default credentials **admin / admin1234**. After authentication you'll be taken to the board; sessions are stored in `localStorage` and may be cleared via the logout button.
+
+## Local storage details
+
+- Data is kept under keys `kanban.columns`, `kanban.tasks`, and `kanban.users`.
+- Default columns and sample tasks are initialized automatically on first run.
+- Usernames must be unique.
+
+## Task filtering
+
+The board header includes a text search for task title/description **and** a priority
+selector that can narrow the view to High, Medium, or Low priority tasks. Either or
+both filters may be active simultaneously.
+
+## Server-side rendering (SSR)
+
+When running the Node/SSR server (`npm run serve:ssr:work-like-pro`),
+requests from `localhost` are whitelisted by default.  This prevents Angular's
+built‑in SSRF protection from rejecting the URL and falling back to client
+rendering.  If you host the app on another domain, add that hostname to the
+`allowedHosts` array in `src/server.ts`.
+
+## Development server
+
+To start a local development server, run:
+
+```bash
+npm install
+npm start
+```
+
+Once the server is running, open your browser and navigate to `http://localhost:4200/`.
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
 
